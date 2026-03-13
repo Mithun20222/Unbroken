@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { useTasks }     from '../hooks/useTasks';
-import Header           from '../components/Header';
-import StatsBar         from '../components/StatsBar';
-import TaskCard         from '../components/TaskCard';
-import AddTaskModal     from '../components/AddTaskModal';
-import EmptyState       from '../components/EmptyState';
+import { useTasks }   from '../hooks/useTasks';
+import Header         from '../components/Header';
+import StatsBar       from '../components/StatsBar';
+import TaskCard       from '../components/TaskCard';
+import AddTaskModal   from '../components/AddTaskModal';
+import EmptyState     from '../components/EmptyState';
 
 export default function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
-  const { tasks, loading, error, createTask, toggleToday, stopTask, deleteTask } = useTasks();
+  const { tasks, loading, error, createTask, toggleToday, deleteTask } = useTasks();
 
   if (loading) {
     return (
@@ -39,8 +39,7 @@ export default function Dashboard() {
     );
   }
 
-  const activeTasks  = tasks.filter((t) => t.status === 'active');
-  const stoppedTasks = tasks.filter((t) => t.status === 'stopped');
+  const activeTasks = tasks.filter((t) => t.status === 'active');
 
   return (
     <div className="min-h-screen bg-surface-0">
@@ -49,11 +48,13 @@ export default function Dashboard() {
 
       <main className="relative max-w-5xl mx-auto px-4 sm:px-6 py-8">
         <Header onAdd={() => setModalOpen(true)} />
+
         {tasks.length > 0 && (
           <div className="mb-8">
             <StatsBar tasks={tasks} />
           </div>
         )}
+
         {tasks.length > 0 && (
           <motion.p
             initial={{ opacity: 0 }}
@@ -73,7 +74,6 @@ export default function Dashboard() {
                     task={task}
                     colorIndex={i}
                     onToggle={toggleToday}
-                    onStop={stopTask}
                     onDelete={deleteTask}
                   />
                 ))
@@ -83,34 +83,6 @@ export default function Dashboard() {
             }
           </AnimatePresence>
         </div>
-
-        <AnimatePresence>
-          {stoppedTasks.length > 0 && (
-            <motion.section
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <p className="font-body text-xs text-white/20 uppercase tracking-widest mb-3">
-                Archived · {stoppedTasks.length}
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 opacity-50">
-                <AnimatePresence mode="popLayout">
-                  {stoppedTasks.map((task, i) => (
-                    <TaskCard
-                      key={task.id}
-                      task={task}
-                      colorIndex={i + activeTasks.length}
-                      onToggle={toggleToday}
-                      onStop={stopTask}
-                      onDelete={deleteTask}
-                    />
-                  ))}
-                </AnimatePresence>
-              </div>
-            </motion.section>
-          )}
-        </AnimatePresence>
 
         <footer className="mt-16 text-center">
           <p className="font-body text-xs text-white/15">

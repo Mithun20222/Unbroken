@@ -87,15 +87,6 @@ export default function TaskCard({ task, colorIndex = 0, onToggle, onStop, onDel
                 className="absolute right-0 top-8 w-36 bg-surface-3 border border-white/10
                            rounded-xl shadow-2xl z-10 overflow-hidden"
               >
-                {!isStopped && !task.duration_days && (
-                  <button
-                    onClick={() => { setMenu(false); onStop(task.id); }}
-                    className="w-full px-4 py-2.5 text-left text-sm font-body text-white/60
-                               hover:bg-white/6 hover:text-white transition-all"
-                  >
-                    Stop task
-                  </button>
-                )}
                 <button
                   onClick={() => { setMenu(false); onDelete(task.id); }}
                   className="w-full px-4 py-2.5 text-left text-sm font-body text-rose-400/70
