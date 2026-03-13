@@ -2,6 +2,8 @@
 
 A modern full-stack productivity app to track daily habits and measure streaks, progress, and completion rates.
 
+Demo - https://unbroken-lilac.vercel.app/
+
 ---
 
 ## Features
